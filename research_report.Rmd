@@ -24,13 +24,36 @@ for (i in 2007:2020) {           # Use for loop to import all files at once
     )
   )
   if (i %in% c(2019,2020)) {
-    fsi_year <- select(fsi_year, -"Change from Previous Year")
+    fsi_year <- select(fsi_year, -"Change from Previous Year") # Drop extra column for 2019 and 2020
   }
   fsi_all <- rbind(fsi_all, fsi_year) # Combine all data frames into one
 }
 
+fsi_all$Year <- as.numeric(str_extract(fsi_all$Year, "[0-9]{4}")) # Modify year variable since it was on a date format 
+
+# Import GPI also downloaded from the website 
+gpi_all <- read_xlsx("data/GPI_all.xlsx", sheet = "Overall Scores", skip = 3)
 
 ```
+
+## Introduction 
+
+Achieving sustainable peace is one of the most relevant global issues today, especially, since high levels of conflict and violence appeared to be correlated with stagnant development; however, managing to transform violent conflict into stable, nonviolent social and political relationships is a great challenge. 
+
+Recently, a new tool for peacebuilding has caught the attention of scholars and practitioners: *Infrastructures for Peace* (I4P). These can be understood as a dynamic network of skills, capacities, resources, tools and institutions that help build constructive relationships and enhance sustainable resilience of societies against the risks of relapse into violence (Giessmann, 2016).
+
+Considering the above, on this report, I will explore the variations on some positive and negative peace indicators, on seven countries that have developed government-lead, national peace infrastructures. 
+
+The countries are: 
+*Afghanistan
+*Cambodia
+*Colombia
+*Costa Rica
+*Ghana
+*Kenya
+*Yemen
+
+
 
 ## Session info
 
