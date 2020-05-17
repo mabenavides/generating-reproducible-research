@@ -1,0 +1,39 @@
+---
+title: "Effects of infrastructures for peace"
+author: "Maria Benavides"
+output: github_document
+---
+
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+
+```{r import data, include = FALSE}
+
+# Import FSI downloaded from the website 
+fsi_all <- read_excel("data/fsi-2006.xlsx")
+
+for (i in 2007:2020) {           # Use for loop to import all files at once
+  fsi_year <- read_excel(
+    paste(
+      "data/fsi-", i, ".xlsx", sep = "")
+    )
+  if (i %in% c(2019,2020)) {
+    fsi_year <- select(fsi_year, -"Change from Previous Year")
+  }
+  fsi_all <- rbind(fsi_all, fsi_year) # Combine all data frames into one
+}
+
+
+```
+
+## Session info
+
+```{r}
+devtools::session_info()
+```
+
+
