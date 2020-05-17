@@ -27,13 +27,39 @@ The countries are:
   - Afghanistan
   - Cambodia
   - Colombia
-  - Costa
-    Rica
+  - Costa Rica
   - Ghana
   - Kenya
   - Yemen
 
 ![](research_report_files/figure-gfm/data%20viz%20fsi-1.png)<!-- -->
+
+These countries adopted at least one of the following infrastructures:
+national peace councils, government departments, or peace ministries,
+policy and legislative measures creating I4P, or transitional justice
+mechanisms. If they were to be effective, we should see an improvement
+in the *Fragile State Index* overall score in the subsequent years to
+the implementation; nonetheless, as we can see on the graph, this is not
+the case for most countries.
+
+**(Take into consideration that a higher score, means worse
+conditions).**
+
+Only Colombia and Costa Rica seemed to have improve in terms of state
+fragility in the years after the implementation of peace
+infrastructures. The *Yemen* case is also worth mentioning; it presents
+a drastic worsening overtime, even after the adoption of peace measures.
+
+![](research_report_files/figure-gfm/data%20viz%20gpi-1.png)<!-- -->
+
+When considering the Global Peace Index, peace infrastructures do not
+appear to be effective, yet again; there is little variation on the
+overall scores (as in the FSI case, a higher value represents less
+peacefulness) after the implementation of I4P.
+
+It is interesting how there is a high variance (0.3291443) among the GPI
+scores, relatively to the FSI
+    (403.0642606).
 
 ## Session info
 
