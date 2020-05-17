@@ -45,6 +45,7 @@ Recently, a new tool for peacebuilding has caught the attention of scholars and 
 Considering the above, on this report, I will explore the variations on some positive and negative peace indicators (Fragile State Index and Global Peace Index), on seven countries that have developed government-lead, national peace infrastructures. 
 
 The countries are: 
+
 * Afghanistan
 * Cambodia
 * Colombia
@@ -114,22 +115,42 @@ fsi_selection <- fsi_all %>%
       cols = c(2:16), 
       names_to = "Year",
       values_to = "Total"
-    ) 
-    
+    ) %>% 
+  mutate(Year = as.numeric(Year)) # Set as numeric 
+  
+years_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures
+                           c("Afghanistan", 
+                             "Cambodia", 
+                             "Colombia", 
+                             "Costa Rica", 
+                             "Ghana", 
+                             "Kenya", 
+                             "Yemen"
+                           ), 
+                         years = 
+                           c(2010, 
+                             2009,
+                             2009, 
+                             2016, 
+                             2011, 
+                             2008, 
+                             2011)
+                          )  
 
-  ggplot(
-    fsi_selection,
-    mapping = aes(x = Year, y = Total, group = 1)
-  ) +
+p <- ggplot(fsi_selection, aes(x = Year, y = Total, group = 1)) + 
     geom_line() +
-    scale_x_discrete(breaks = c(2006, 2009, 2012, 2015, 2018)) + 
     facet_wrap(~Country, 
                scales = "free_x") +
     labs(title="Fragile States Index Variation 2006 - 2020 (2006 score: 100)", 
          x = "Year", 
-         y = "Total score")
+         y = "Total score") + 
+    scale_x_continuous(breaks = c(2006, 2009,2012, 2015, 2018)) 
+
+p + geom_vline(data = years_impl, mapping = aes(xintercept = years)) # Add line of when the infrastructure took place
   
 ```
+
+
 
 ## Session info
 

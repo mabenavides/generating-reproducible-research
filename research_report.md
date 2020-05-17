@@ -22,9 +22,16 @@ some positive and negative peace indicators (Fragile State Index and
 Global Peace Index), on seven countries that have developed
 government-lead, national peace infrastructures.
 
-The countries are: *Afghanistan *Cambodia *Colombia *Costa Rica *Ghana
-*Kenya
-    \*Yemen
+The countries are:
+
+  - Afghanistan
+  - Cambodia
+  - Colombia
+  - Costa
+    Rica
+  - Ghana
+  - Kenya
+  - Yemen
 
 ![](research_report_files/figure-gfm/data%20viz%20fsi-1.png)<!-- -->
 
