@@ -10,11 +10,11 @@ library(tidyverse)
 library(readxl)
 library(here)
 library(jcolors)
+theme_set(new = theme_minimal())
 ```
 
 
 ```{r import data, include = FALSE}
-
 # Import FSI downloaded from the website 
 fsi_all <- read_excel(here("data/fsi-2006.xlsx"))
 
@@ -55,10 +55,10 @@ The countries are:
 * Kenya
 * Yemen
 
+## Analysis of overall scores
+
 ```{r data viz fsi, echo=FALSE}
-
 # Plot a graph of the trends of FSI 
-
 fsi_selection <- fsi_all %>%
   select(1,2,4) %>% # Select variables of interest
   filter(
@@ -82,26 +82,14 @@ fsi_selection <- fsi_all %>%
     ) %>% 
   mutate(Year = as.numeric(Year)) # Set as numeric 
   
-years_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures to use on the graphs 
-                           c("Afghanistan", 
-                             "Cambodia", 
-                             "Colombia", 
-                             "Costa Rica", 
-                             "Ghana", 
-                             "Kenya", 
-                             "Yemen"
-                           ), 
-                         years = 
-                           c(2010, 
-                             2009,
-                             2016, 
-                             2009, 
-                             2011, 
-                             2008, 
-                             2011)
+# Create a data frame with the years of implementation of infrastructures to use on the graphs
+years_impl <- data.frame(Country =  c("Afghanistan", "Cambodia", "Colombia", "Costa Rica", 
+                                    "Ghana", "Kenya", "Yemen"
+                                      ), 
+                          years = c(2010, 2009, 2016, 2009, 2011, 2008, 2011)
                           )  
 
-p <- ggplot(fsi_selection, aes(x = Year, y = Total, group = 1)) + 
+p <- ggplot(fsi_selection, aes(x = Year, y = Total, group = 1)) + # Plot the graph 
     geom_line() +
     facet_wrap(~Country, 
                scales = "free_x") +
@@ -118,12 +106,10 @@ These countries adopted at least one of the following infrastructures: national 
 
 *(Take into consideration that a higher score, means worse conditions).*
 
-Only Colombia and Costa Rica seemed to have improve in terms of state fragility in the years after the implementation of peace infrastructures. The *Yemen* case is also worth mentioning; it presents a drastic worsening overtime, even after the adoption of peace measures.
+Only Colombia and Costa Rica seemed to have improve in terms of state fragility in the years after the implementation of peace infrastructures. The **Yemen** case is also worth mentioning; it presents a drastic worsening overtime, even after the adoption of peace measures.
 
 ```{r data viz gpi, echo=FALSE}
-
 # Plot a graph of the trends of GPI
-
 gpi_selection <- gpi_all %>%
   select(-2) %>%   
   filter( # Filter selected countries 
@@ -155,30 +141,22 @@ p + geom_vline(data = years_impl, mapping = aes(xintercept = years)) # Add line 
   
 ```
 
-When considering the Global Peace Index, peace infrastructures do not appear to be effective, yet again; there is little variation on the overall scores (as in the FSI case, a higher value represents less peacefulness) after the implementation of I4P. 
+When considering the Global Peace Index, peace infrastructures do not appear to be effective, yet again; there is little variation on the overall scores after the implementation of I4P. 
+
+*(As in the FSI case, a higher value represents less peacefulness)*
 
 It is interesting how there is a high variance (`r var(gpi_selection$Score)`) among the GPI scores; countries like Costa Rica and Ghana are, according to this index, very peaceful, while Yemen and Afghanistan are incredible violent. 
 
-```{r Sub indices FSI, echo=FALSE}
+## Analysis of sub-indicators
 
-years_post_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures to use on the graphs 
-                           c("Afghanistan", 
-                             "Cambodia", 
-                             "Colombia", 
-                             "Costa Rica", 
-                             "Ghana", 
-                             "Kenya", 
-                             "Yemen"
-                           ), 
-                         years = 
-                           c(2011, 
-                             2010,
-                             2017, 
-                             2010, 
-                             2012, 
-                             2009, 
-                             2012)
-                          )
+```{r Sub indices FSI, echo=FALSE}
+# Create a data frame with the years of implementation of infrastructures to use on the graphs 
+years_post_impl <- data.frame(Country = c("Afghanistan", "Cambodia", "Colombia", "Costa Rica", 
+                                        "Ghana", "Kenya", "Yemen"
+                                        ),
+                              years = c(2011, 2010, 2017, 2010, 2012, 2009, 2012)
+                              )
+
 years_post_impl <-years_post_impl %>%
   mutate(Country = as.character(Country)) # Change type to character, because it was set as factor
 
@@ -209,7 +187,6 @@ fsi_plot_2 <- fsi_plot %>% # Modify dataframe for thr graph
   )
 
 # Plot the subindices 
-
 ggplot(fsi_plot_2, aes(x = score, y = Country, fill = Country)) + 
     geom_bar(stat = "identity") +
     facet_wrap(~indicator, 
@@ -222,12 +199,83 @@ ggplot(fsi_plot_2, aes(x = score, y = Country, fill = Country)) +
 
 ```
 
-On the previous graph we see the sub-indicators scores for each country, in the year after they implemented a given peace infrastructure. We can see that **Afghanistan** and **Yemen** perform poorly in all dimensions of state fragility. 
+On the previous graph we see the FSI sub-indicators scores for each country, in the year after they implemented a given peace infrastructure. We can see that **Afghanistan** and **Yemen** perform poorly in all dimensions of state fragility, while **Costa Rica** appears to be a stable nation. 
 
-```{r regression, echo=FALSE}
+It also interesting to see that Public Services is the dimension where countries present a lower score. So we could argue that given the fragility of these states, they are unable to provide public services to their citizens. 
+
+## Overall transformation
+
+Although we don’t see much improvement after the implementation of I4P, considering the time frame of the data, some countries have experienced change over time. Based on the FSI, Afghanistan, Colombia, Cambodia and Costa Rica have strengthened their states capacity, as we can see from the variation on the overall score, shown in the following graph. 
+
+*Since a higher score means more fragility, a decrease on it, would represent improvements.*
 
 
-
+```{r overall fsi change, echo=FALSE}
+# Create dataframe with only the overall scores from 2008 & 2019, to make them comparable 
+fsi_change <- fsi_all %>%  
+  select(1,2,4) %>%
+  filter(Country == "Colombia" |
+         Country == "Afghanistan" |
+         Country == "Cambodia" |
+         Country == "Costa Rica" |
+         Country == "Ghana" |
+         Country == "Kenya" |
+         Country == "Yemen",  
+         Year == 2008 |
+         Year == 2019
+         ) %>%
+  rename(
+    fsi = Total
+  ) %>%
+  pivot_wider(
+    names_from = Year, 
+    values_from = fsi
+  ) %>%
+  mutate(
+    dif = (`2019`-`2008`)/`2008`
+  )
+  
+# Plot the diff of overall score FSI 
+ggplot(fsi_change, aes(x = dif, y = Country)) + 
+  geom_bar(stat = "identity") +
+  scale_x_continuous(labels = scales::percent) +
+    labs(title="Fragile State Index variation (2008-2019)", 
+         x = "Variation in percentage", 
+         y = "Countries")
 ```
 
+The GPI variation also shows some improvements in terms of peacefulness. But the case of **Yemen** stands out. An increase of over 40% in the overall GPI score, means that violence and conflict have escalated tremendously during the last 11 years. It is also worth noting that **Costa Rica**, although it has presented an increase in the score, it is considered a peaceful country. 
+
+
+```{r overall gpi change, echo=FALSE}
+
+# Create dataframe with only countries of interest 
+gpi_change <- gpi_all %>%  
+  select(1,3,14) %>%
+  filter(Country == "Colombia" |
+         Country == "Afghanistan" |
+         Country == "Cambodia" |
+         Country == "Costa Rica" |
+         Country == "Ghana" |
+         Country == "Kenya" |
+         Country == "Yemen",  
+         ) %>%
+  mutate(
+    dif = (`2019`-`2008`)/`2008`
+  )
+  
+# Plot the diff of overall score FSI 
+ggplot(gpi_change, aes(x = dif, y = Country)) + 
+  geom_bar(stat = "identity") +
+  scale_x_continuous(labels = scales::percent) +
+  labs(title="Global Peace Index variation (2008-2019)", 
+         x = "Variation in percentage", 
+         y = "Countries")
+```
+
+## Conclusions
+
+This exploratory analysis tried to understand how some positive and negative peace indicators changed in countries that implemented infrastructures for peace to eradicate conflict. We saw that the transformation was not in the expected direction, and that in some cases, countries performed worse after implementing these peace policies. 
+
+Given that this report only considered countries that adopted I4P with national coverage, and that were government-lead, we should not conclude that peace infrastructures in general are inefficient. We advise further analysis that include other types of policies and indicators that are more comprehensive. 
 
