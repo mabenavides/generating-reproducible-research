@@ -9,6 +9,7 @@ output: github_document
 library(tidyverse)
 library(readxl)
 library(here)
+library(RColorBrewer)
 ```
 
 
@@ -40,7 +41,7 @@ gpi_all <- read_xlsx("data/GPI_all.xlsx", sheet = "Overall Scores", skip = 3)
 
 Achieving sustainable peace is one of the most relevant global issues today, especially, since high levels of conflict and violence appeared to be correlated with stagnant development; however, managing to transform violent conflict into stable, nonviolent social and political relationships is a great challenge. 
 
-Recently, a new tool for peacebuilding has caught the attention of scholars and practitioners: *Infrastructures for Peace* (I4P). These can be understood as a dynamic network of skills, capacities, resources, tools and institutions that help build constructive relationships and enhance sustainable resilience of societies against the risks of relapse into violence (Giessmann, 2016).
+Recently, a new tool for peacebuilding has caught the attention of scholars and practitioners: **Infrastructures for Peace** (I4P). These can be understood as a dynamic network of skills, capacities, resources, tools and institutions that help build constructive relationships and enhance sustainable resilience of societies against the risks of relapse into violence (Giessmann, 2016).
 
 Considering the above, on this report, I will explore the variations on some positive and negative peace indicators (Fragile State Index and Global Peace Index), on seven countries that have developed government-lead, national peace infrastructures. 
 
@@ -113,9 +114,9 @@ p + geom_vline(data = years_impl, mapping = aes(xintercept = years)) # Add line 
   
 ```
 
-These countries adopted at least one of the following infrastructures: national peace councils, government departments, or peace ministries, policy and legislative measures creating I4P, or transitional justice mechanisms. If they were to be effective, we should see an improvement in the *Fragile State Index* overall score in the subsequent years to the implementation; nonetheless, as we can see on the graph, this is not the case for most countries. 
+These countries adopted at least one of the following infrastructures: national peace councils, government departments, or peace ministries, policy and legislative measures creating I4P, or transitional justice mechanisms. If they were to be effective, we should see an improvement in the **Fragile State Index** overall score in the subsequent years to the implementation; nonetheless, as we can see on the graph, this is not the case for most countries. 
 
-**(Take into consideration that a higher score, means worse conditions).**
+*(Take into consideration that a higher score, means worse conditions).*
 
 Only Colombia and Costa Rica seemed to have improve in terms of state fragility in the years after the implementation of peace infrastructures. The *Yemen* case is also worth mentioning; it presents a drastic worsening overtime, even after the adoption of peace measures.
 
@@ -158,11 +159,47 @@ When considering the Global Peace Index, peace infrastructures do not appear to 
 
 It is interesting how there is a high variance (`r var(gpi_selection$Score)`) among the GPI scores; countries like Costa Rica and Ghana are, according to this index, very peaceful, while Yemen and Afghanistan are incredible violent. 
 
+```{r Sub indices FSI, echo=FALSE}
 
-## Session info
+# Plot a graph of the trends of GPI
 
-```{r}
-devtools::session_info()
+fsi_plot <- fsi_all[0:0,] # Create an empty dataframe
+
+years_impl<-years_impl %>%
+  mutate(Country = as.character(Country)) # Change type to character, because it was set as factor
+
+for (n in 1:nrow(years_impl)){
+  country <- years_impl[n,"Country"] # Use loop to filter 
+  year <- years_impl[n,"years"]
+  impl <- filter(fsi_all, Country==country,Year==year)
+  
+  fsi_plot <- rbind(fsi_plot, impl) # Combine dataframes
+} 
+  
+fsi_plot_2 <- fsi_plot %>% # Modify dataframe for thr graph
+  select(-2, -3, -4) %>%
+  pivot_longer(
+    cols = 2:13, 
+    names_to = "indicator",
+    values_to = "score"
+  ) %>%
+  mutate(
+    indicator = str_remove(
+    indicator, 
+    "^[A-Z][0-9]\\:\\s") #Remove extra characters in indicators names
+  )
+
+# Plot the subindices 
+
+ggplot(fsi_plot_2, aes(x = score, y = Country, fill = Country)) + 
+    geom_bar(stat = "identity") +
+    scale_fill_brewer(type = "qual",  palette = "Paired") + 
+    facet_wrap(~indicator, 
+               scales = "free_x", 
+               ) +
+  theme(axis.text.y = element_blank())
+
+  
 ```
 
 
