@@ -11,8 +11,8 @@ transform violent conflict into stable, nonviolent social and political
 relationships is a great challenge.
 
 Recently, a new tool for peacebuilding has caught the attention of
-scholars and practitioners: *Infrastructures for Peace* (I4P). These can
-be understood as a dynamic network of skills, capacities, resources,
+scholars and practitioners: **Infrastructures for Peace** (I4P). These
+can be understood as a dynamic network of skills, capacities, resources,
 tools and institutions that help build constructive relationships and
 enhance sustainable resilience of societies against the risks of relapse
 into violence (Giessmann, 2016).
@@ -38,12 +38,11 @@ These countries adopted at least one of the following infrastructures:
 national peace councils, government departments, or peace ministries,
 policy and legislative measures creating I4P, or transitional justice
 mechanisms. If they were to be effective, we should see an improvement
-in the *Fragile State Index* overall score in the subsequent years to
+in the **Fragile State Index** overall score in the subsequent years to
 the implementation; nonetheless, as we can see on the graph, this is not
 the case for most countries.
 
-**(Take into consideration that a higher score, means worse
-conditions).**
+*(Take into consideration that a higher score, means worse conditions).*
 
 Only Colombia and Costa Rica seemed to have improve in terms of state
 fragility in the years after the implementation of peace

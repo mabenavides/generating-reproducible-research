@@ -9,7 +9,7 @@ output: github_document
 library(tidyverse)
 library(readxl)
 library(here)
-library(RColorBrewer)
+library(jcolors)
 ```
 
 
@@ -82,7 +82,7 @@ fsi_selection <- fsi_all %>%
     ) %>% 
   mutate(Year = as.numeric(Year)) # Set as numeric 
   
-years_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures
+years_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures to use on the graphs 
                            c("Afghanistan", 
                              "Cambodia", 
                              "Colombia", 
@@ -161,16 +161,35 @@ It is interesting how there is a high variance (`r var(gpi_selection$Score)`) am
 
 ```{r Sub indices FSI, echo=FALSE}
 
-# Plot a graph of the trends of GPI
+years_post_impl <- data.frame(Country = # Create a data frame with the years of implementation of infrastructures to use on the graphs 
+                           c("Afghanistan", 
+                             "Cambodia", 
+                             "Colombia", 
+                             "Costa Rica", 
+                             "Ghana", 
+                             "Kenya", 
+                             "Yemen"
+                           ), 
+                         years = 
+                           c(2011, 
+                             2010,
+                             2017, 
+                             2010, 
+                             2012, 
+                             2009, 
+                             2012)
+                          )
+years_post_impl <-years_post_impl %>%
+  mutate(Country = as.character(Country)) # Change type to character, because it was set as factor
+
+# Create dataframe with variables of interest
 
 fsi_plot <- fsi_all[0:0,] # Create an empty dataframe
 
-years_impl<-years_impl %>%
-  mutate(Country = as.character(Country)) # Change type to character, because it was set as factor
 
-for (n in 1:nrow(years_impl)){
-  country <- years_impl[n,"Country"] # Use loop to filter 
-  year <- years_impl[n,"years"]
+for (n in 1:nrow(years_post_impl)){
+  country <- years_post_impl[n,"Country"] # Use loop to filter 
+  year <- years_post_impl[n,"years"]
   impl <- filter(fsi_all, Country==country,Year==year)
   
   fsi_plot <- rbind(fsi_plot, impl) # Combine dataframes
@@ -193,13 +212,22 @@ fsi_plot_2 <- fsi_plot %>% # Modify dataframe for thr graph
 
 ggplot(fsi_plot_2, aes(x = score, y = Country, fill = Country)) + 
     geom_bar(stat = "identity") +
-    scale_fill_brewer(type = "qual",  palette = "Paired") + 
     facet_wrap(~indicator, 
-               scales = "free_x", 
                ) +
-  theme(axis.text.y = element_blank())
+  scale_fill_jcolors(palette = "pal7") + 
+  theme(axis.text.y = element_blank()) + 
+  labs(title="Fragile State Index sub-indicators, post I4P implementation", 
+         x = "Score", 
+         y = "Countries")
 
-  
+```
+
+On the previous graph we see the sub-indicators scores for each country, in the year after they implemented a given peace infrastructure. We can see that **Afghanistan** and **Yemen** perform poorly in all dimensions of state fragility. 
+
+```{r regression, echo=FALSE}
+
+
+
 ```
 
 
