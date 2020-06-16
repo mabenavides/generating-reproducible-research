@@ -11,7 +11,7 @@ For this project, I used the [Fragile States Index](https://fragilestatesindex.o
 * here
 * jcolors
 
-### Modified files
+### Files
 
 * [README.md](README.md): contains the description of the project and the files I created
 * [research_report.Rmd](research_report.Rmd): contains the code and analysis
