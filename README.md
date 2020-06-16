@@ -1,10 +1,8 @@
-# hw06
+# Generating reproducible research
 
-## Maria Benavides 
+## Author: Maria Benavides 
 
-### Intro
-
-For this project, I used the datasets I'm using my Harris Policy Lab project. We are trying to determine wheater infrastructures for peace have effects on positive and negative peace indicators. Thus, I considered the [Fragile States Index](https://fragilestatesindex.org/excel/) and the [Global Peace Index](http://visionofhumanity.org/public-release-data/attachment/gpi-2019-overall-scores-and-domains-2008-2019/) 
+For this project, I used the [Fragile States Index](https://fragilestatesindex.org/excel/) and the [Global Peace Index](http://visionofhumanity.org/public-release-data/attachment/gpi-2019-overall-scores-and-domains-2008-2019/) to identify changes on positive and negative peace indicators.
 
 ### Libraries needed
 
