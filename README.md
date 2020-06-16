@@ -2,7 +2,7 @@
 
 ## Author: Maria Benavides 
 
-For this project, I used the [Fragile States Index](https://fragilestatesindex.org/excel/) and the [Global Peace Index](http://visionofhumanity.org/public-release-data/attachment/gpi-2019-overall-scores-and-domains-2008-2019/) to identify changes on positive and negative peace indicators.
+For this project, I used the [Fragile States Index](https://fragilestatesindex.org/excel/) and the [Global Peace Index](http://visionofhumanity.org/public-release-data/attachment/gpi-2019-overall-scores-and-domains-2008-2019/) to identify changes on positive and negative peace indicators, in a selected group of countries. 
 
 ### Libraries needed
 
